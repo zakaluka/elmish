@@ -41,7 +41,7 @@ let projects  =
 
 let mutable dotnetExePath = "dotnet"
 
-let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
+let baseOptions = lazy DotNet.install DotNet.Release_2_1_300
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
     >> DotNet.Options.withWorkingDirectory workingDir
