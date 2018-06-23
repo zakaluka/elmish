@@ -64,7 +64,9 @@ Core.Target.create "Install" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        DotNet.restore (fun a -> {a with Common = a.Common |> withWorkDir dir}) s
+        // DotNet.restore (fun a -> {a with Common = a.Common |> withWorkDir dir}) s
+        // Trying without modifying the working directory.
+        DotNet.restore id s
         // runDotnet "restore"  dir
     )
 )
