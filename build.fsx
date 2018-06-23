@@ -64,12 +64,7 @@ Core.Target.create "Install" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-
-        DotNet.restore
-            (fun a ->
-                printfn "~~~~~~~~~~\n\n\n\n\n.NET CLI PATH: %s" a.Common.DotNetCliPath
-                { a with
-                    Common = a.Common |> withWorkDir dir }) s
+        DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
         // runDotnet "restore"  dir
     )
 )
