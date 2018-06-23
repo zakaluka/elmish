@@ -45,7 +45,7 @@ let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
     >> DotNet.Options.withWorkingDirectory workingDir
-    >> DotNet.Options.withDotNetCliPath dotnetExePath
+    // >> DotNet.Options.withDotNetCliPath dotnetExePath
     // DotNetCli.RunCommand (fun p -> { p with ToolPath = dotnetExePath
     //                                       WorkingDir = workingDir } )
 
@@ -64,26 +64,12 @@ Core.Target.create "Install" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        let f = IO.Path.GetFileName s
 
-
-        // Tries:
-        // 1. Same as windows, but cannot find the file.
-        // DotNet.restore (fun a -> {a with Common = a.Common |> withWorkDir dir}) s
-
-        // 2. Tried with no change to working directory
-        // DotNet.restore id s
-
-        // 3. Tried with no path as part of filename.
-        // DotNet.restore
-        //   (fun a -> a.WithCommon (fun x -> { x with WorkingDirectory = dir }))
-        //   f
-
-        // 4. Trying without project file
         DotNet.restore
-          (fun a -> a.WithCommon (fun x -> { x with WorkingDirectory = dir }))
-          ""
-
+            (fun a ->
+                printfn "~~~~~~~~~~\n\n\n\n\n.NET CLI PATH: %s" a.Common.DotNetCliPath
+                { a with
+                    Common = a.Common |> withWorkDir dir }) s
         // runDotnet "restore"  dir
     )
 )
