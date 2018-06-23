@@ -46,8 +46,7 @@ let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
     >> DotNet.Options.withWorkingDirectory workingDir
-    >> DotNet.Options.withVerbosity (Some DotNet.Verbosity.Diagnostic)
-    // >> DotNet.Options.withDotNetCliPath dotnetExePath
+    // >> DotNet.Options.withVerbosity (Some DotNet.Verbosity.Diagnostic)
     // DotNetCli.RunCommand (fun p -> { p with ToolPath = dotnetExePath
     //                                       WorkingDir = workingDir } )
 
