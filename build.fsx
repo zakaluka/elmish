@@ -46,7 +46,7 @@ let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
     >> DotNet.Options.withWorkingDirectory workingDir
-    >> DotNet.Options.withVerbosity (Some DotNet.Verbosity.Detailed)
+    >> DotNet.Options.withVerbosity (Some DotNet.Verbosity.Diagnostic)
     // >> DotNet.Options.withDotNetCliPath dotnetExePath
     // DotNetCli.RunCommand (fun p -> { p with ToolPath = dotnetExePath
     //                                       WorkingDir = workingDir } )
@@ -79,7 +79,7 @@ Core.Target.create "Build" (fun _ ->
             a.WithCommon
                 (fun c ->
                     let c = c |> withWorkDir dir
-                    {c with CustomParams = (Some "-c Release /p:SourceLinkCreate=true")}))
+                    {c with CustomParams = Some "-c Release /p:SourceLinkCreate=true"}))
             s
     // runDotnet dir "build -c Release /p:SourceLinkCreate=true"
     )
