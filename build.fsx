@@ -39,8 +39,6 @@ let projects  =
 
 // let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
 
-let mutable dotnetExePath = "dotnet"
-
 let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
@@ -64,7 +62,9 @@ Core.Target.create "Install" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
+        // Stalling due to fsprojects/Paket#3123
+        // DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
+        DotNet.Paket.restore (fun a -> { a with WorkingDir = __SOURCE_DIRECTORY__})
         // runDotnet "restore"  dir
     )
 )
