@@ -240,11 +240,11 @@ Core.Target.create "Release" (fun _ ->
     let user =
         match Environment.environVarOrDefault "github-user" String.Empty with
         | s when not (String.IsNullOrWhiteSpace s) -> s
-        | _ -> getUserInput "Username: "
+        | _ -> UserInput.getUserInput "Username: "
     let pw =
         match Environment.environVarOrDefault "github-pw" String.Empty with
         | s when not (String.IsNullOrWhiteSpace s) -> s
-        | _ -> getUserPassword "Password: "
+        | _ -> UserInput.getUserPassword "Password: "
     let remote =
         Tools.Git.CommandHelper.getGitResult "" "remote -v"
         |> Seq.filter (fun (s: string) -> s.EndsWith("(push)"))
