@@ -65,11 +65,25 @@ Core.Target.create "Install" (fun _ ->
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
         let f = IO.Path.GetFileName s
+
+
+        // Tries:
+        // 1. Same as windows, but cannot find the file.
         // DotNet.restore (fun a -> {a with Common = a.Common |> withWorkDir dir}) s
-        // Trying without modifying the working directory.  Didn't work, now trying with just filename and setting the working directory
+
+        // 2. Tried with no change to working directory
+        // DotNet.restore id s
+
+        // 3. Tried with no path as part of filename.
+        // DotNet.restore
+        //   (fun a -> a.WithCommon (fun x -> { x with WorkingDirectory = dir }))
+        //   f
+
+        // 4. Trying without project file
         DotNet.restore
           (fun a -> a.WithCommon (fun x -> { x with WorkingDirectory = dir }))
-          f
+          ""
+
         // runDotnet "restore"  dir
     )
 )
