@@ -62,9 +62,7 @@ Core.Target.create "Install" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        // Stalling due to fsprojects/Paket#3123
-        // DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
-        DotNet.Paket.restore (fun a -> { a with WorkingDir = __SOURCE_DIRECTORY__})
+        DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
         // runDotnet "restore"  dir
     )
 )
