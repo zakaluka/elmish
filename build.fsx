@@ -78,7 +78,7 @@ Core.Target.create "Build" (fun _ ->
             a.WithCommon
                 (fun c ->
                     let c = c |> withWorkDir dir
-                    {c with CustomParams = Some "-c Release /p:SourceLinkCreate=true"}))
+                    {c with CustomParams = Some "/p:SourceLinkCreate=true"}))
             s
     // runDotnet dir "build -c Release /p:SourceLinkCreate=true"
     )
