@@ -44,7 +44,6 @@ Target.create "Install" (fun _ ->
     |> Seq.iter (fun s ->
         let dir = Path.GetDirectoryName s
         DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
-        // runDotnet "restore"  dir
     )
 )
 
@@ -58,7 +57,6 @@ Target.create "Build" (fun _ ->
                     let c = c |> withWorkDir dir
                     {c with CustomParams = Some "/p:SourceLinkCreate=true"}))
             s
-    // runDotnet dir "build -c Release /p:SourceLinkCreate=true"
     )
 )
 
@@ -99,15 +97,13 @@ Target.create "Package" (fun _ ->
 
 Target.create "PublishNuget" (fun _ ->
     let args = sprintf "nuget push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    // DotNet.exec (fun a -> { a with  })
     let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "run" args
     if (not result.OK) then failwith (List.reduce (+) result.Errors)
-    // runDotnet "src/bin/Release" args
+
     let args = sprintf "nuget push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
     let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "run" args
     if (not result.OK) then
         failwith (result.Errors |> List.map (fun s -> s + ";") |> List.reduce (+))
-    // runDotnet "netstandard/bin/Release" args
 )
 
 
@@ -250,7 +246,6 @@ Target.create "Publish" ignore
 // Build order
 "Clean"
   ==> "Meta"
-//   ==> "InstallDotNetCore"
   ==> "Install"
   ==> "Build"
   ==> "Package"
