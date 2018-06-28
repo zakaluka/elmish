@@ -9,8 +9,9 @@ group Build
 framework: net46
 
     source https://nuget.org/api/v2
-    nuget FSharp.Core  redirects:force, content:none
+    nuget FSharp.Core  redirects:force, content:none, >= 4.2.3
     nuget FAKE >= 5.0.0
     nuget FSharp.Formatting
+    nuget Octokit 0.28
 
     github fsharp/FAKE modules/Octokit/Octokit.fsx
