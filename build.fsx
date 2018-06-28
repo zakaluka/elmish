@@ -210,7 +210,7 @@ Target.create "ReleaseDocs" (fun _ ->
 )
 
 // #load "./paket-files/Build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
-#load "../../paket-files/Build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
+#load "../../../../paket-files/Build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
 open Octokit
 
 Target.create "Release" (fun _ ->
