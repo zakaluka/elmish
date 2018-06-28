@@ -4,6 +4,7 @@
 #r "./packages/build/FAKE/tools/FakeLib.dll"
 #r "System.IO.Compression.FileSystem"
 
+open Fake.Api
 open Fake.Core
 open Fake.Core.TargetOperators
 open Fake.DotNet
@@ -235,9 +236,9 @@ Target.create "Release" (fun _ ->
 
     // release on github
 
-    Fake.Api.GitHub.createClient user pw
-    |> Fake.Api.GitHub.draftNewRelease gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes
-    |> Fake.Api.GitHub.publishDraft
+    GitHub.createClient user pw
+    |> GitHub.draftNewRelease gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes
+    |> GitHub.publishDraft
     |> Async.RunSynchronously
 )
 
